@@ -81,19 +81,19 @@ public class ControllerData implements HIDController {
         int bytesRead = device.read(data, 1000);
         if (bytesRead > 12) {
             int raw = data[12] & 0xFF;
-            if (raw <= 15) {
-                batteryLevel = (int) ((raw / 15.0) * 100);
-                batteryHistory.add(batteryLevel);
+            if (raw == 0x0A || raw == 0x0B) {
+                batteryLevel = 100;
+            } else if (raw <= 0x0A){
+                batteryLevel = (int) ((raw / 10.0) * 100);
             } else {
                 batteryLevel = (int) ((raw / 255.0) * 100);
-                batteryHistory.add(batteryLevel);
             }
+            batteryHistory.add(batteryLevel);
         }
-//        System.out.println("Raw report:");
-//        for (int i = 0; i < read; i++) {
-//            System.out.printf("[%02d] = 0x%02X\n", i, buffer[i]);
-//        }
-
+        System.out.println("Raw report:");
+        for (int i = 0; i < bytesRead; i++) {
+            System.out.printf("[%02d] = 0x%02X\n", i, data[i]);
+        }
     }
 
     @Override
