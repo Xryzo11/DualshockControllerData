@@ -15,7 +15,11 @@ public class IconGenerator {
         g2d.setColor(new Color(0, 0, 0, 0));
         g2d.fillRect(0, 0, iconSize, iconSize);
         g2d.setColor(new Color(0, 150, 0, 100));
-        g2d.setFont(new Font("Arial", Font.BOLD, iconSize));
+        if (num > 99 || num < -99) {
+            g2d.setFont(new Font("Arial", Font.BOLD, iconSize - 12));
+        } else {
+            g2d.setFont(new Font("Arial", Font.BOLD, iconSize));
+        }
         FontMetrics fm = g2d.getFontMetrics();
         String number = String.valueOf(num);
         int x = (iconSize - fm.stringWidth(number)) / 2;
